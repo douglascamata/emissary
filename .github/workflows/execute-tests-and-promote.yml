@@ -69,6 +69,7 @@ jobs:
       DOCKER_USERNAME: ${{ secrets.GH_DOCKER_BUILD_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.GH_DOCKER_BUILD_TOKEN }}
     strategy:
+      fail-fast: false
       matrix:
         test:
           - integration
