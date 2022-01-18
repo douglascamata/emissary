@@ -122,6 +122,15 @@ spec:
   prefix_bad: /bad-<<WHICH>>/
   service: {self.target.path.fqdn}
 """, """
+kind: Mapping
+metadata:
+  name:  {self.path.k8s}-m-bad-no-apiversion-<<WHICH>>
+spec:
+  ambassador_id: ["{self.ambassador_id}"]
+  hostname: "*"
+  prefix_bad: /bad-<<WHICH>>/
+  service: {self.target.path.fqdn}
+""", """
 apiVersion: getambassador.io/v3alpha1
 kind:  Module
 metadata:
@@ -207,11 +216,12 @@ spec:
 
         for m in self.models:
             m_yaml = self.format(m.replace("<<WHICH>>", "crd"))
+            m_obj = yaml.safe_load(m_yaml)
+            if 'apiVersion' not in m_obj:
+                continue
 
             manifests.append("---")
             manifests.append(m_yaml)
-
-            m_obj = yaml.safe_load(m_yaml)
 
             if 'good' not in m_obj["metadata"]["name"]:
                 self.resource_names.append(m_obj["metadata"]["name"] + ".default.1")

@@ -92,6 +92,10 @@ Please see the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest
   opposed to annotations), as an emtpy value ("mask the global default") was erroneously considered
   to be equivalent to unset ("inherit the global default").  This is now fixed.
 
+- Bugfix: Resources that exist as `getambassador.io/config` annotations rather than as native
+  Kubernetes resources are now validated and internally converted to v3alpha1 and, the same as
+  native Kubernetes resources.
+
 ## 2.1.1 not issued
 
 *Emissary-ingress 2.1.1 was not issued; Ambassador Edge Stack 2.1.1 uses Emissary-ingress 2.1.0.*
