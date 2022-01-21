@@ -8,6 +8,9 @@ pushd /home/andres/source/production/emissary/tools/src/js-mkopensource
 go build -o "${SCRIPT_FOLDER}/js-mkopensource" .
 popd
 
+OUTPUT_FOLDER="${SCRIPT_FOLDER}/licenses"
+mkdir -p "${OUTPUT_FOLDER}"
+
 pushd /home/andres/source/production/emissary
 
 find -name package.json -exec dirname {} \; | while IFS=$'\n' read packagedir; do
@@ -18,7 +21,7 @@ find -name package.json -exec dirname {} \; | while IFS=$'\n' read packagedir; d
   FILENAME="$(date +%s_%N).json"
   mv ${SCRIPT_FOLDER}/out/dependencies.json "${SCRIPT_FOLDER}/${FILENAME}"
 
-  cat "${SCRIPT_FOLDER}/${FILENAME}" | "${SCRIPT_FOLDER}/js-mkopensource" | jq
+  cat "${SCRIPT_FOLDER}/${FILENAME}" | "${SCRIPT_FOLDER}/js-mkopensource" > "${OUTPUT_FOLDER}/${FILENAME}"
 done
 
 popd
